@@ -1,0 +1,2 @@
+[clients]
+client1.wifi-test ansible_user=root
