@@ -11,9 +11,7 @@ nmcli device disconnect wlan0
 nmcli device wifi connect "${wifi_network_under_test}" ifname wlan0
 
 # Do test stuff
-curl --output /tmp/test-output.log \
-	--resolve connectbox.rpi3:80:10.129.0.1 \
-	http://connectbox.rpi3/content/
+python3 /tmp/downloader.py
 
 # Disconnect from the network under test
 nmcli device disconnect wlan0

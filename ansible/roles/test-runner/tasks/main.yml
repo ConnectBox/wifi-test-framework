@@ -4,6 +4,24 @@
     name: "{{ item }}"
     cache_valid_time: 86400  # 1 day
   with_items:
-    - curl  # XXX may already be installed
+    - wget
     - python3-pip
     - python3-virtualenv
+
+#- name: Create test runner python virtualenv
+#  pip:
+#    virtualenv: /tmp/runner_venv
+#    virtualenv_python: python3.5
+#    name: "{{ item }}"
+#  with_items:
+#    - 
+
+- name: Copy test runner script
+  copy:
+    src: ../../../../scripts/downloader.py
+    dest: /tmp/downloader.py
+
+- name: Create /etc/hosts entry for target machine
+  lineinfile:
+    path: /etc/hosts
+    line: 10.129.0.1 connectbox.rpi3
