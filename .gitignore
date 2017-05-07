@@ -90,3 +90,4 @@ ENV/
 
 ansible/inventory
 site.retry
+*.swp
