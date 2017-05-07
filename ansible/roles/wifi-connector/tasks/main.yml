@@ -1,0 +1,20 @@
+---
+- name: Create wifi configs
+  ini_file:
+    path: /etc/wifi_test_framework.conf
+    mode: 644
+    section: "network"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { option: "wifi_network_under_test", value: "{{ wifi_network_under_test }}" }
+    - { option: "wifi_network_default_name", value: "{{ wifi_network_default_name }}" }
+    - { option: "wifi_network_default_password", value: "{{ wifi_network_default_password }}" }
+
+- name: Copy runner script
+  copy:
+    src: ../../../../scripts/run.sh
+    dest: /root/run.sh
+    mode: 755
+   
+    

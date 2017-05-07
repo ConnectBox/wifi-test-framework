@@ -1,0 +1,7 @@
+---
+- hosts: clients
+  become: yes
+  roles:
+    - bootstrap
+    - wifi-connector
+    - test-runner

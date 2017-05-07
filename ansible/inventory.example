@@ -1,2 +1,2 @@
 [clients]
-client1.wifi-test ansible_user=root network_under_test="connectbox rpi3" wifi_network_default_name="my home network" wifi_network_default_name="my wifi password"
+client1.wifi-test ansible_user=root wifi_network_under_test="connectbox rpi3" wifi_network_default_name="my home network" wifi_network_default_password="my wifi password"

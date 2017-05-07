@@ -1,0 +1,4 @@
+---
+wifi_network_under_test: connectbox
+wifi_network_default_name: ""
+wifi_network_default_password: ""
