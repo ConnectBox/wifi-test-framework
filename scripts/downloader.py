@@ -70,6 +70,7 @@ class Downloader(object):
             self.service_once()
 
     def report(self, stats_fd):
+        LOGGER.debug("Writing stats to %s", stats_fd.name)
         if self.recvd_bytes_at_timestamp[self.last_timestamp] == 0:
             # It was a zero-byte read at the end... discard
             del self.recvd_bytes_at_timestamp[self.last_timestamp]
@@ -137,12 +138,11 @@ def main():
         if args.output_file == "-":
             stats_fd = sys.stdout
         else:
-            stats_fd = open(pathlib.Path(args.output_file), "w")
+            output_path = pathlib.Path(args.output_file)
+            stats_fd = open(str(output_path), "w")
     else:
-        stats_fd = open(pathlib.Path("{0}.csv".format(dler.test_identifier)),
-                        "w")
-
-    LOGGER.debug("Writing stats to %s", stats_fd.name)
+        output_path = pathlib.Path("{0}.csv".format(dler.test_identifier))
+        stats_fd = open(str(output_path), "w")
 
     dler.report(stats_fd)
 
