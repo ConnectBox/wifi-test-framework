@@ -14,8 +14,8 @@
     msg: "The system must be rebooted because the disk expansion is not complete!"
   when: resize2fs_reboot.stat.exists == True
 
-- name: Temporarily shutdown log2ram service on Armbian during package installation
-  service:
-    name: log2ram
-    state: stopped
-  notify: Start log2ram service
+- name: Set timezone to Sydney
+  file:
+    state: link
+    src: /usr/share/zoneinfo/Australia/Sydney
+    dest: /etc/localtime
