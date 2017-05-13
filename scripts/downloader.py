@@ -32,10 +32,10 @@ class Downloader(object):
         self.url = url
         self.rate_bps = rate_bps
         self.recvd_bytes_at_timestamp = OrderedCounter()
-        self.downloading_proc = Popen(self.get_cmd(), stdout=PIPE, bufsize=0)
-        LOGGER.debug("Process running with PID: %s", self.downloading_proc.pid)
-        self.test_identifier = "{0}_{1}".format(socket.getfqdn(),
-                                                self.downloading_proc.pid)
+        # Populated during run()
+        self.downloading_proc = None
+        # Populated during run()
+        self.test_identifier = None
 
     def get_cmd(self):
         cmd = ["wget",
@@ -61,6 +61,11 @@ class Downloader(object):
         self.last_timestamp = now_secs
 
     def run(self):
+        self.downloading_proc = Popen(self.get_cmd(), stdout=PIPE, bufsize=0)
+        LOGGER.debug("Process running with PID: %s", self.downloading_proc.pid)
+        self.test_identifier = "{0}_{1}".format(socket.getfqdn(),
+                                                self.downloading_proc.pid)
+
         while self.downloading_proc.returncode is None:
             self.service_once()
 
@@ -123,15 +128,22 @@ def main():
     else:
         LOGGER.debug("Starting test immediately (no sleeping)")
 
-    if args.output_file:
-        LOGGER.debug("Writing stats to %s", args.output_file)
-        stats_fd = open(pathlib.Path(args.output_file), "w")
-    else:
-        LOGGER.debug("Writing stats to stdout")
-        stats_fd = sys.stdout
-
     dler = Downloader(args.url, args.bps)
     dler.run()
+
+    # The default output file requires the test id, which is only available
+    #  once the test has run, so we process these arguments late.
+    if args.output_file:
+        if args.output_file == "-":
+            stats_fd = sys.stdout
+        else:
+            stats_fd = open(pathlib.Path(args.output_file), "w")
+    else:
+        stats_fd = open(pathlib.Path("{0}.csv".format(dler.test_identifier)),
+                        "w")
+
+    LOGGER.debug("Writing stats to %s", stats_fd.name)
+
     dler.report(stats_fd)
 
 
