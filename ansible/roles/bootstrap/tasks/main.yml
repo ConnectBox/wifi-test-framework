@@ -14,6 +14,11 @@
     msg: "The system must be rebooted because the disk expansion is not complete!"
   when: resize2fs_reboot.stat.exists == True
 
+# This is correct for test clients
+- name: Set hostname based on inventory
+  hostname:
+    name: "{{ inventory_hostname }}"
+
 - name: Set timezone to Sydney
   file:
     state: link
