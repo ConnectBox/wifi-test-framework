@@ -5,6 +5,7 @@ from collections import Counter, OrderedDict
 import logging
 import pathlib
 import time
+import socket
 from subprocess import Popen, PIPE
 import sys
 
@@ -32,6 +33,9 @@ class Downloader(object):
         self.rate_bps = rate_bps
         self.recvd_bytes_at_timestamp = OrderedCounter()
         self.downloading_proc = Popen(self.get_cmd(), stdout=PIPE, bufsize=0)
+        LOGGER.debug("Process running with PID: %s", self.downloading_proc.pid)
+        self.test_identifier = "{0}_{1}".format(socket.getfqdn(),
+                                                self.downloading_proc.pid)
 
     def get_cmd(self):
         cmd = ["wget",
@@ -74,9 +78,12 @@ class Downloader(object):
                     recvd_bytes_total,
                     elapsed_secs,
                     int(recvd_bytes_total/elapsed_secs))
-        stats_fd.write("#timestamp,byte_count\n")
+        stats_fd.write("#test_id,timestamp,byte_count\n")
         for timestamp, byte_count in self.recvd_bytes_at_timestamp.items():
-            stats_fd.write("{0:d},{1:d}\n".format(timestamp, byte_count))
+            stats_fd.write("{0},{1:d},{2:d}\n".format(
+                self.test_identifier,
+                timestamp,
+                byte_count))
 
 
 def main():
