@@ -6,7 +6,7 @@ wifi_network_default_password=$(awk -F " = " '$1 = /wifi_network_default_passwor
 
 current_wifi=$(iwconfig wlan0 | head -1 | cut -d'"' -f2)
 
-echo "Before"
+echo -n "Before: "
 iwconfig wlan0 | head -1
 
 # XXX if multiple clients might need to wait if it's unassociated at this stage (while loop?)
@@ -19,7 +19,7 @@ if [ "${current_wifi}" != "${wifi_network_under_test}" ]; then
         ifname wlan0
 fi
 
-echo "During"
+echo -n "During: "
 iwconfig wlan0 | head -1
 
 # Do test stuff
@@ -40,5 +40,5 @@ if [ "${current_wifi}" != "${wifi_network_default_name}" ]; then
         ifname wlan0
 fi
 
-echo "After"
+echo -n "After: "
 iwconfig wlan0 | head -1
