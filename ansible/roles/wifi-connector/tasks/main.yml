@@ -15,6 +15,6 @@
   copy:
     src: ../../../../scripts/run.sh
     dest: /root/run.sh
-    mode: 755
+    mode: 0755
    
     
