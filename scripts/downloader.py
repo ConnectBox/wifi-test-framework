@@ -8,6 +8,8 @@ import time
 from subprocess import Popen, PIPE
 import sys
 
+UNLIMITED_SPEED = -1
+
 LOGGER = logging.getLogger("downloader")
 
 
@@ -32,11 +34,16 @@ class Downloader(object):
         self.downloading_proc = Popen(self.get_cmd(), stdout=PIPE, bufsize=0)
 
     def get_cmd(self):
-        return ["wget",
-                "--quiet",
-                "--output-document=-",
-                "--limit-rate=%s" % (self.rate_bps,),
-                self.url]
+        cmd = ["wget",
+               "--quiet",
+               "--output-document=-",
+               self.url]
+
+        if self.rate_bps != UNLIMITED_SPEED:
+            # Insert as the first argument (right after the command)
+            cmd.insert(1, "--limit-rate={0:d}".format(self.rate_bps))
+
+        return cmd
 
     def service_once(self):
         now_secs = int(time.time())
@@ -67,6 +74,7 @@ class Downloader(object):
                     recvd_bytes_total,
                     elapsed_secs,
                     int(recvd_bytes_total/elapsed_secs))
+        stats_fd.write("#timestamp,byte_count\n")
         for timestamp, byte_count in self.recvd_bytes_at_timestamp.items():
             stats_fd.write("{0:d},{1:d}\n".format(timestamp, byte_count))
 
@@ -77,8 +85,8 @@ def main():
     parser.add_argument(
         "-b", "--bps",
         type=int,
-        default=250000,
-        help="the speed of the connection bytes per sec (default: 250000)")
+        default=UNLIMITED_SPEED,
+        help="the speed of the connection bytes per sec (default: unlimited)")
     parser.add_argument(
         "-o", "--output-file",
         help="the destination file for test measurements")
@@ -109,8 +117,10 @@ def main():
         LOGGER.debug("Starting test immediately (no sleeping)")
 
     if args.output_file:
+        LOGGER.debug("Writing stats to %s", args.output_file)
         stats_fd = open(pathlib.Path(args.output_file), "w")
     else:
+        LOGGER.debug("Writing stats to stdout")
         stats_fd = sys.stdout
 
     dler = Downloader(args.url, args.bps)

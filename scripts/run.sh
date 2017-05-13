@@ -10,8 +10,9 @@ nmcli device disconnect wlan0
 # Connect to the network under test
 nmcli device wifi connect "${wifi_network_under_test}" ifname wlan0
 
+echo $@
 # Do test stuff
-python3 /tmp/downloader.py
+#python3 /tmp/downloader.py $@
 
 # Disconnect from the network under test
 nmcli device disconnect wlan0
