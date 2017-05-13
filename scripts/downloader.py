@@ -34,9 +34,8 @@ class Downloader(object):
         self.recvd_bytes_at_timestamp = OrderedCounter()
         self.downloading_proc = Popen(self.get_cmd(), stdout=PIPE, bufsize=0)
         LOGGER.debug("Process running with PID: %s", self.downloading_proc.pid)
-        self.test_identifier = "{0}.{1}_{2}".format(socket.gethostname(),
-                                                    socket.getfqdn(),
-                                                    self.downloading_proc.pid)
+        self.test_identifier = "{0}_{1}".format(socket.getfqdn(),
+                                                self.downloading_proc.pid)
 
     def get_cmd(self):
         cmd = ["wget",
