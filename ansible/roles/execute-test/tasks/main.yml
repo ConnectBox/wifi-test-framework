@@ -1,0 +1,19 @@
+---
+#- name: Run tests test
+#  command: echo "running test"
+
+- name: Run tests
+  command: "/root/run.sh {{ parallel_run_count }} {{ test_bandwidth }} http://{{ test_server_hostname }}/{{ test_file_path }}"
+  async: "{{ test_max_duration_mins * 60 }}"  # async is in secs
+  poll: 10
+
+- name: Find results files created
+  command: "find /root -name '*.csv' -cmin -{{ test_max_duration_mins }}"
+  register: results_files
+
+- name: Fetch results files
+  fetch:
+    src: "{{ item }}"
+    dest: "{{ local_test_results_directory }}/{{ item }}"
+    flat: yes
+  with_items: "{{ results_files.stdout_lines }}"

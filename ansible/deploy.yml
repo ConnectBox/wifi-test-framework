@@ -3,5 +3,5 @@
   become: yes
   roles:
     - bootstrap
-    - wifi-connector
     - test-runner
+    - test-config

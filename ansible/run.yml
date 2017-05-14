@@ -1,0 +1,6 @@
+---
+- hosts: clients
+  become: yes
+  roles:
+    - test-config
+    - execute-test

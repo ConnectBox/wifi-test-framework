@@ -11,10 +11,7 @@
     - { option: "wifi_network_default_name", value: "{{ wifi_network_default_name }}" }
     - { option: "wifi_network_default_password", value: "{{ wifi_network_default_password }}" }
 
-- name: Copy runner script
-  copy:
-    src: ../../../../scripts/run.sh
-    dest: /root/run.sh
-    mode: 0755
-   
-    
+- name: Create /etc/hosts entry for target machine (test server)
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ test_server_ip }} {{test_server_hostname }}"
