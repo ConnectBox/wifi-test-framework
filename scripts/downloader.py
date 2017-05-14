@@ -53,8 +53,9 @@ class Downloader(object):
         now_secs = int(time.time())
         if now_secs > self.last_timestamp:
             self.downloading_proc.poll()
-            LOGGER.info("%s - Received bytes: %s",
+            LOGGER.info("%s - %s received bytes: %s",
                         self.last_timestamp,
+                        self.test_identifier,
                         self.recvd_bytes_at_timestamp[self.last_timestamp])
         newly_read = self.downloading_proc.stdout.read(1024)
         self.recvd_bytes_at_timestamp[now_secs] += len(newly_read)
