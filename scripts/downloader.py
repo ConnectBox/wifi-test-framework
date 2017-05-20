@@ -85,7 +85,7 @@ class Downloader(object):
                     recvd_bytes_total,
                     elapsed_secs,
                     int(recvd_bytes_total/elapsed_secs))
-        stats_fd.write("#test_id,timestamp,byte_count\n")
+        stats_fd.write("#client_test_id,timestamp,bytes_per_sec\n")
         for timestamp, byte_count in self.recvd_bytes_at_timestamp.items():
             stats_fd.write("{0},{1:d},{2:d}\n".format(
                 self.test_identifier,
