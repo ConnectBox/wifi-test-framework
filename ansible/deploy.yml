@@ -1,7 +1,0 @@
----
-- hosts: clients
-  become: yes
-  roles:
-    - bootstrap
-    - test-runner
-    - test-config

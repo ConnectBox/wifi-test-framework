@@ -1,4 +1,6 @@
 ---
+# Default connectbox wifi IP
+test_server_ip: 10.129.0.1
 wifi_network_under_test: connectbox
 wifi_network_default_name: ""
 wifi_network_default_password: ""

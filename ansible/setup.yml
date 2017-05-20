@@ -2,5 +2,4 @@
 - hosts: clients
   become: yes
   roles:
-    - deploy-artifacts
-    - execute-test
+    - setup-system

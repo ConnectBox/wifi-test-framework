@@ -24,3 +24,13 @@
     state: link
     src: /usr/share/zoneinfo/Australia/Sydney
     dest: /etc/localtime
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 86400  # 1 day
+  with_items:
+    - wget
+    - python3-pip
+    - python3-virtualenv
+

@@ -28,7 +28,7 @@ shift
 
 for i in $(seq 1 ${COUNT}); do
     # Do test stuff
-    python3 /tmp/downloader.py $@ &
+    python3 ./downloader.py $@ &
 done
 
 wait

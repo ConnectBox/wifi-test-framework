@@ -1,9 +1,8 @@
 ---
-#- name: Run tests test
-#  command: echo "running test"
-
 - name: Run tests
-  command: "/root/run.sh {{ parallel_run_count }} {{ test_bandwidth }} http://{{ test_server_hostname }}/{{ test_file_path }}"
+  command: "./run.sh {{ parallel_run_count }} {{ test_bandwidth }} http://{{ test_server_hostname }}/{{ test_file_path }}"
+  args:
+    chdir: "{{ script_dest_dir }}"  # downloader.py is expected next to run.sh
   async: "{{ test_max_duration_mins * 60 }}"  # async is in secs
   poll: 10
 

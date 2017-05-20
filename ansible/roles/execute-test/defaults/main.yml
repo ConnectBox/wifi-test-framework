@@ -4,7 +4,5 @@ parallel_run_count: 1
 test_bandwidth: -b 250000
 test_file_path: /content/throughput-test/10MB.bin
 test_server_name: ""
-# Default connectbox wifi IP
-test_server_ip: 10.129.0.1
 local_test_results_directory: /tmp/
 test_max_duration_mins: 10
