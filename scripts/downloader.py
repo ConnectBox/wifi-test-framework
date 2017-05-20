@@ -102,8 +102,11 @@ def main():
         default=UNLIMITED_SPEED,
         help="the speed of the connection bytes per sec (default: unlimited)")
     parser.add_argument(
-        "-o", "--output-file",
-        help="the destination file for test measurements")
+        "-d", "--output-file-dir",
+        default="/tmp",
+        help="the base directory used for storage of test measurements. "
+             "- implies no storage and print results to stdout. "
+             "(default: /tmp)")
     parser.add_argument(
         "-s", "--sleep",
         type=int,
@@ -135,14 +138,11 @@ def main():
 
     # The default output file requires the test id, which is only available
     #  once the test has run, so we process these arguments late.
-    if args.output_file:
-        if args.output_file == "-":
-            stats_fd = sys.stdout
-        else:
-            output_path = pathlib.Path(args.output_file)
-            stats_fd = open(str(output_path), "w")
+    if args.output_file_dir == "-":
+        stats_fd = sys.stdout
     else:
-        output_path = pathlib.Path("{0}.csv".format(dler.test_identifier))
+        output_path = pathlib.Path(args.output_file_dir,
+                                   "{0}.csv".format(dler.test_identifier))
         stats_fd = open(str(output_path), "w")
 
     dler.report(stats_fd)

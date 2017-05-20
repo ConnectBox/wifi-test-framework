@@ -1,13 +1,28 @@
 ---
+- name: Generate test_run_id
+  set_fact:
+    test_run_id: "test-run-{{ 2147483648 | random }}"  # 31 bits is enough!
+
+- name: Make test output directory
+  file:
+    state: directory
+    dest: "{{ remote_test_results_directory }}"
+
 - name: Run tests
-  command: "./run.sh {{ parallel_run_count }} {{ test_bandwidth }} http://{{ test_server_hostname }}/{{ test_file_path }}"
+  command: ./run.sh
+    "{{ parallel_run_count }}"
+    "{{ test_bandwidth }}"
+    "-d {{ remote_test_results_directory }}"
+    "http://{{ test_server_hostname }}/{{ test_file_path }}"
   args:
     chdir: "{{ script_dest_dir }}"  # downloader.py is expected next to run.sh
   async: "{{ test_max_duration_mins * 60 }}"  # async is in secs
   poll: 10
 
-- name: Find results files created
-  command: "find /root -name '*.csv' -cmin -{{ test_max_duration_mins }}"
+- name: Find results files
+  command: "find {{ remote_test_results_directory }}"
+    "-name '*.csv'"
+    "-cmin -{{ test_max_duration_mins }}"
   register: results_files
 
 - name: Fetch results files
