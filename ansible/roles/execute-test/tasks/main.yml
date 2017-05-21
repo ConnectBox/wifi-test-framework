@@ -20,9 +20,7 @@
   poll: 10
 
 - name: Find results files
-  command: "find {{ remote_test_results_directory }}"
-    "-name '*.csv'"
-    "-cmin -{{ test_max_duration_mins }}"
+  command: "find {{ remote_test_results_directory }} -name '*.csv' -cmin -{{ test_max_duration_mins }}"
   register: results_files
 
 - name: Fetch results files
