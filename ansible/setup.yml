@@ -1,5 +1,0 @@
----
-- hosts: clients
-  become: yes
-  roles:
-    - setup-system

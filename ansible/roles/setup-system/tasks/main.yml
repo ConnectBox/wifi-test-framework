@@ -28,7 +28,7 @@
 - name: Install required packages
   apt:
     name: "{{ item }}"
-    cache_valid_time: 86400  # 1 day
+    cache_valid_time: 604800  # 1 week
   with_items:
     - wget
     - python3-pip

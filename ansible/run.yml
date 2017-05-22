@@ -2,5 +2,6 @@
 - hosts: clients
   become: yes
   roles:
+    - setup-system
     - deploy-artifacts
     - execute-test
