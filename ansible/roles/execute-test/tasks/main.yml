@@ -1,14 +1,15 @@
 ---
 - name: Generate test_run_id
   set_fact:
-    test_run_id: "test-run-{{ 2147483648 | random }}"  # 31 bits is enough!
+    test_run_id: "{{ 2147483648 | random }}"  # 31 bits is enough!
+  run_once: true  # Only want a single test_run_id, not one per client
 
 - name: Make test output directory
   file:
     state: directory
     dest: "{{ remote_test_results_directory }}"
 
-- name: Run tests
+- name: "Run tests as run id: {{ test_run_id }}"
   command: ./run.sh
     "{{ parallel_run_count }}"
     "{{ test_bandwidth }}"
