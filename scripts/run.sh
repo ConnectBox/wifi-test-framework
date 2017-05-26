@@ -1,5 +1,10 @@
 #!/bin/bash
 
+WAIT_TIME_FOR_ASSOCIATION_SECS=20
+
+now_secs=$(date +"%s")
+test_start_time=$(( $now_secs+$WAIT_TIME_FOR_ASSOCIATION_SECS ))
+
 wifi_network_under_test=$(awk -F " = " '$1 = /wifi_network_under_test/ { print $2; }' /etc/wifi_test_framework.conf)
 wifi_network_default_name=$(awk -F " = " '$1 = /wifi_network_default_name/ { print $2; }' /etc/wifi_test_framework.conf)
 wifi_network_default_password=$(awk -F " = " '$1 = /wifi_network_default_password/ { print $2; }' /etc/wifi_test_framework.conf)
@@ -27,6 +32,10 @@ current_wifi=$(iwconfig ${wlan_device} | head -1 | cut -d'"' -f2)
 COUNT=$1
 # Shift so we can pass the rest of the arguments to the test script
 shift
+
+# Wait for test start time (so all clients are starting simultaneously
+#  regardless of association time)
+sleep $(( $test_start_time-$(date +"%s") ))
 
 for i in $(seq 1 ${COUNT}); do
     # Do test stuff
