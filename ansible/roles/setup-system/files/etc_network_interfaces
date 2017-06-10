@@ -1,0 +1,12 @@
+# Don't allow-hotplug on eth0 - we don't want it brought up automatically
+#  on boot, because we need to apply the rc.local MAC address workaround
+no-auto-down eth0
+iface eth0 inet dhcp
+
+# Don't allow-hotplug on wlan0 - we bring it up manually in the test runner
+#  which is also the first time we provide a legit wpa_supplicant.conf file
+iface wlan0 inet dhcp
+   wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+auto lo
+iface lo inet loopback

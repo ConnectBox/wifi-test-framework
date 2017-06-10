@@ -1,28 +1,23 @@
 ---
-- name: Create wifi configs
-  ini_file:
-    path: /etc/wifi_test_framework.conf
-    mode: 644
-    section: "network"
-    option: "{{ item.option }}"
-    value: "{{ item.value }}"
-  with_items:
-    - { option: "wifi_network_under_test", value: "{{ wifi_network_under_test }}" }
-    - { option: "wifi_network_default_name", value: "{{ wifi_network_default_name }}" }
-    - { option: "wifi_network_default_password", value: "{{ wifi_network_default_password }}" }
+- name: Remove old wpa_supplicant symlink
+  file:
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    state: absent
+
+- name: Create wpa_supplicant config for network under test
+  copy:
+   dest: /etc/wpa_supplicant/wpa_supplicant.conf
+   mode: 0600
+   content: |
+     network={
+        ssid="{{ wifi_network_under_test }}"
+        key_mgmt=NONE
+     }
 
 - name: Create /etc/hosts entry for target machine (test server)
   lineinfile:
     path: /etc/hosts
     line: "{{ test_server_ip }} {{ test_server_hostname }}"
-
-#- name: Create test runner python virtualenv
-#  pip:
-#    virtualenv: /tmp/runner_venv
-#    virtualenv_python: python3.5
-#    name: "{{ item }}"
-#  with_items:
-#    - 
 
 - name: Create directory for scripts
   file:

@@ -1,5 +1,39 @@
 ---
 
+- name: Stop and Disable NetworkManager
+  service:
+    name: NetworkManager
+    enabled: no
+    state: stopped
+
+# XXX - need to reboot if this changes
+- name: Populate rc.local with persistent eth0 MAC workaround
+  template:
+    src: rc.local.j2
+    dest: /etc/rc.local
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Configure network interfaces, including eth0 for persistent MAC workaround
+  copy:
+    src: etc_network_interfaces
+    dest: /etc/network/interfaces
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Setup use of old-style interface names for predictability across devices
+  lineinfile:
+    path: /boot/armbianEnv.txt
+    state: present
+    line: 'extraargs=net.ifnames=0 biosdevname=0'
+
+- name: Fail if old-style interface names aren't active
+  fail:
+    msg: "The system must be rebooted to apply old-style interface names"
+  when: ("biosdevname" not in ansible_cmdline) or ansible_cmdline["biosdevname"] != "0" or ("net.ifnames" not in ansible_cmdline) or ansible_cmdline["net.ifnames"] != "0"
+
 # Check early on to see whether the OS needs to be
 # rebooted to allow a disk expansion step to complete.
 # This is Armbian only, but the check doesn't hurt others.
@@ -24,6 +58,10 @@
     state: link
     src: /usr/share/zoneinfo/Australia/Sydney
     dest: /etc/localtime
+
+# REG_DOMAIN=AU in /etc/default/crda
+# change to 0 below
+# APT::Periodic::Unattended-Upgrade "1";
 
 - name: Install required packages
   apt:
