@@ -4,4 +4,4 @@
   roles:
     - setup-system
     - deploy-artifacts
-    - execute-test
+    - { role: execute-test, tags: ["task_execution"] }
