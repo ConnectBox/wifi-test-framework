@@ -49,6 +49,7 @@ def show_run_df_as_line_graph(df, title):
                         values="bytes_per_sec")
     ax = pivot_df.plot(figsize=(10, 10))
     ax.set_xlabel("Elapsed time (sec)")
+    x.set_xbound(lower=0)
     ax.set_ylabel("Throughput (bytes/sec)")
     ax.axhline(y=250000,
                color='0.75',
@@ -73,3 +74,8 @@ def show_run_df_as_boxplot(df, title):
     ax2.axhline(y=250000, color='0.75', linestyle="--")
     ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
     ax2.set_title(title)
+
+#df1 = get_dataframe_from_test_run(1234)
+#df2 = get_dataframe_from_test_run(5678)
+#df1_and_df2 = pd.concat([df1, df2])
+#df1_and_df2["test_case"] = "MAF1"
