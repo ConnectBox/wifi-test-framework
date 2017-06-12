@@ -30,3 +30,11 @@
     dest: "{{ local_test_results_directory }}/{{ item }}"
     flat: yes
   with_items: "{{ results_files.stdout_lines }}"
+
+- name: Write run metadata
+  template:
+    src: metadata.ini.j2
+    dest: "{{ local_test_results_directory }}/root/wifi-test-results/test-run-{{ test_run_id }}/metadata.ini"
+  delegate_to: 127.0.0.1
+  run_once: True
+  become: False

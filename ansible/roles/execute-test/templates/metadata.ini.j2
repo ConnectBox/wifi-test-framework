@@ -1,0 +1,8 @@
+[GLOBAL]
+test_server_hostname = {{ test_server_hostname }}
+test_bandwidth = {{ test_bandwidth }}
+test_file_path = {{ test_file_path }}
+{% for host in vars['play_hosts'] %}
+[{{ host }}]
+parallel_run_count = {{ hostvars[host]["parallel_run_count"] }}
+{% endfor %}

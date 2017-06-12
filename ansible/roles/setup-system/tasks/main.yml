@@ -1,5 +1,4 @@
 ---
-
 - name: Stop and Disable NetworkManager
   service:
     name: NetworkManager
