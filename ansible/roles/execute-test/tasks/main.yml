@@ -1,8 +1,13 @@
 ---
+# We only want one test_run_id per run (not one per client per run) which
+#  prevents us from setting it in defaults/main.yml. We do, however, want
+#  to be able to override it using other methods (like -e) so we check
+#  whether it's defined before setting the variable
 - name: Generate test_run_id
   set_fact:
     test_run_id: "{{ 2147483648 | random }}"  # 31 bits is enough!
   run_once: true  # Only want a single test_run_id, not one per client
+  when: test_run_id is undefined
 
 - name: Make test output directory
   file:
