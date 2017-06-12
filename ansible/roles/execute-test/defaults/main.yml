@@ -7,3 +7,4 @@ test_server_name: ""
 remote_test_results_directory: "/root/wifi-test-results/test-run-{{ test_run_id }}"
 local_test_results_directory: /tmp/
 test_max_duration_mins: 10
+test_group_id: 0
