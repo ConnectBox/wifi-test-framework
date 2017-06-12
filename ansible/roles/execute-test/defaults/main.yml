@@ -1,7 +1,7 @@
 ---
 parallel_run_count: 1
 # 2Mbit/sec
-test_bandwidth: -b 250000
+test_bandwidth_bps: 250000
 test_file_path: /content/throughput-test/10MB.bin
 test_server_name: ""
 remote_test_results_directory: "/root/wifi-test-results/test-run-{{ test_run_id }}"

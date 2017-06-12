@@ -54,7 +54,9 @@ def get_graph_title_for_run(test_run_id):
     stream_count = sum([int(config[s]["parallel_run_count"])
                         for s in config.sections()
                         if s != "global"])
-    bandwidth_desc = config["global"]["test_bandwidth"]
+    bandwidth_desc = "{0} bytes/sec".format(
+        config["global"]["test_bandwidth_bps"]
+    )
     title = "Run {0} against {1}{2}.\n{3} clients ({4} streams @ {5} each)" \
             .format(
                 test_run_id,

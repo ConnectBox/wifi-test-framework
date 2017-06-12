@@ -1,5 +1,0 @@
-[clients:vars]
-test_bandwidth=-b 300000
-
-[clients]
-client1.wifi-test parallel_run_count=15

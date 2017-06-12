@@ -12,7 +12,7 @@
 - name: "Run tests as run id: {{ test_run_id }}"
   command: ./run.sh
     "{{ parallel_run_count }}"
-    "{{ test_bandwidth }}"
+    "-b {{ test_bandwidth_bps }}"
     "-d {{ remote_test_results_directory }}"
     "http://{{ test_server_hostname }}/{{ test_file_path }}"
   args:
