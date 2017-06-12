@@ -2,8 +2,9 @@
 test_server_hostname = {{ test_server_hostname }}
 test_bandwidth = {{ test_bandwidth }}
 test_file_path = {{ test_file_path }}
-test_group_id = {{ test_group }}
+test_group_id = {{ test_group_id }}
 test_run_id = {{ test_run_id }}
+extra_run_description = {{ extra_run_description }}
 {% for host in vars['play_hosts'] %}
 [{{ host }}]
 parallel_run_count = {{ hostvars[host]["parallel_run_count"] }}
