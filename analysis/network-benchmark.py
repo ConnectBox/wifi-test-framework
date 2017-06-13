@@ -4,6 +4,7 @@ import configparser
 import glob
 import io
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -69,11 +70,11 @@ def get_graph_title_for_run(test_run_id):
     return title
 
 
-def show_run_df_as_line_graph(df, title):
+def show_run_df_as_line_graph(df, title, ax):
     pivot_df = df.pivot(index="time_offset",
                         columns="client_id",
                         values="bytes_per_sec")
-    ax = pivot_df.plot(figsize=(10, 10))
+    ax = pivot_df.plot(figsize=(20, 10), ax=ax)
     ax.set_xlabel("Elapsed time (sec)")
     ax.set_xbound(lower=0)
     ax.set_ylabel("Throughput (bytes/sec)")
@@ -83,6 +84,21 @@ def show_run_df_as_line_graph(df, title):
     ax.annotate(" 480p bitrate",
                 (max(df["time_offset"]), 250000))
     ax.set_title(title)
+
+
+def show_multiple_run_ids_as_line_graph(run_ids):
+    fig, axes = plt.subplots(1, len(run_ids),
+                             sharex=True,
+                             sharey=True,
+                             squeeze=False)
+
+    for idx, run_id in enumerate(run_ids):
+        summary_data = get_dataframe_from_test_run(run_id)
+        show_run_df_as_line_graph(
+            summary_data,
+            get_graph_title_for_run(run_id),
+            ax=axes[0][idx]
+        )
 
 
 def show_run_df_as_boxplot(df, title):
@@ -100,8 +116,3 @@ def show_run_df_as_boxplot(df, title):
     ax2.axhline(y=250000, color='0.75', linestyle="--")
     ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
     ax2.set_title(title)
-
-# df1 = get_dataframe_from_test_run(1234)
-# df2 = get_dataframe_from_test_run(5678)
-# df1_and_df2 = pd.concat([df1, df2])
-# df1_and_df2["test_case"] = "MAF1"
