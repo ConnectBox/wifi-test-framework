@@ -14,7 +14,7 @@
     state: directory
     dest: "{{ remote_test_results_directory }}"
 
-- name: "Run tests as run id: {{ test_run_id }}"
+- name: "Run tests as run id: {{ test_run_id }} in group: {{ test_group_id }}"
   command: ./run.sh
     "{{ parallel_run_count }}"
     "-b {{ test_bandwidth_bps }}"
