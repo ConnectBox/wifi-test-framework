@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import configparser
+from functools import lru_cache
 import glob
 import io
 import os
@@ -151,7 +152,8 @@ def show_run_df_as_boxplot(df, title):
     ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
     ax2.set_title(title)
 
-# memoize
+
+@lru_cache()
 def get_test_run_ids_for_group_id(test_group_id):
     matching_run_ids = []
     config = configparser.ConfigParser()
