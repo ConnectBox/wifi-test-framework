@@ -41,6 +41,8 @@ def get_dataframe_from_test_run(test_run_id):
                                       "timestamp",
                                       "bytes_per_sec"])
     # Create a time_offset column
+    # XXX - perhaps make this a timedelta so that we can use a timegrouper to
+    # resample the data so we don't have too many boxplots?
     summary_data["time_offset"] = \
         summary_data["timestamp"] - min(summary_data["timestamp"])
     return summary_data
@@ -64,7 +66,8 @@ def get_graph_title_for_run(test_run_id):
     bandwidth_desc = "{0} bytes/sec".format(
         config["global"]["test_bandwidth_bps"]
     )
-    title = "Run {0} against {1}{2}.\n{3} clients ({4} streams @ {5} each)" \
+    title = "Run {0} against {1}{2}.\n" \
+            "{3} clients with a total of {4} streams each attempting {5}" \
             .format(
                 test_run_id,
                 config["global"]["test_server_hostname"],
@@ -89,7 +92,7 @@ def get_graph_title_for_group(test_group_id):
         config["global"]["test_bandwidth_bps"]
     )
     title = "Group run {0} against {1}{2} with {3} repeat runs.\n" \
-            "Each with {4} clients ({5} streams @ {6} each)" \
+            "{4} clients with a total of {5} streams each attempting {6}" \
             .format(
                 test_group_id,
                 config["global"]["test_server_hostname"],
@@ -141,8 +144,9 @@ def show_run_df_as_boxplot(df, title):
                              10)
     ax2 = df.boxplot(column="bytes_per_sec",
                      by="time_offset",
-                     figsize=(10, 10)
-                     )
+                     figsize=(10, 5),
+                     whis=[5, 95],
+                     showfliers=False)
     ax2.set_xlabel("Elapsed time (sec)")
     ax2.grid()
     ax2.set_xticks(labels)
@@ -151,6 +155,8 @@ def show_run_df_as_boxplot(df, title):
     ax2.axhline(y=250000, color='0.75', linestyle="--")
     ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
     ax2.set_title(title)
+    # Nerf figure title
+    ax2.get_figure().suptitle("")
 
 
 @lru_cache()
