@@ -7,8 +7,9 @@ import io
 import os
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import pandas as pd
-import numpy as np
+# import numpy as np
 
 
 TEST_RESULT_ROOT = "/Users/esteele/tmp/wifi-test/root/wifi-test-results"
@@ -41,18 +42,11 @@ def get_dataframe_from_test_run(test_run_id):
                                       "timestamp",
                                       "bytes_per_sec"])
     # Create a time_offset column
-    # XXX - perhaps make this a timedelta so that we can use a timegrouper to
-    # resample the data so we don't have too many boxplots?
     summary_data["time_offset"] = \
-        summary_data["timestamp"] - min(summary_data["timestamp"])
+        pd.to_datetime(summary_data['timestamp'], unit='s') - \
+        min(pd.to_datetime(summary_data['timestamp'], unit='s'))
+    summary_data.set_index("time_offset", inplace=True)
     return summary_data
-
-
-def get_tick_labels(min_value, max_value, labels_count):
-    return list(range(int(np.floor(min_value)),
-                      int(np.ceil(max_value)),
-                      int(max_value/labels_count))) + \
-            [max_value]
 
 
 def get_graph_title_for_run(test_run_id):
@@ -67,13 +61,14 @@ def get_graph_title_for_run(test_run_id):
         config["global"]["test_bandwidth_bps"]
     )
     title = "Run {0} against {1}{2}.\n" \
-            "{3} clients with a total of {4} streams each attempting {5}" \
+            "{3} streams between {4} clients. " \
+            "Each stream attempting {5}" \
             .format(
                 test_run_id,
                 config["global"]["test_server_hostname"],
                 config["global"]["extra_run_description"],
-                client_count,
                 stream_count,
+                client_count,
                 bandwidth_desc
             )
     return title
@@ -92,14 +87,15 @@ def get_graph_title_for_group(test_group_id):
         config["global"]["test_bandwidth_bps"]
     )
     title = "Group run {0} against {1}{2} with {3} repeat runs.\n" \
-            "{4} clients with a total of {5} streams each attempting {6}" \
+            "{4} streams between {5} clients. " \
+            "Each stream attempting {6}" \
             .format(
                 test_group_id,
                 config["global"]["test_server_hostname"],
                 config["global"]["extra_run_description"],
                 len(run_ids),
-                client_count,
                 stream_count,
+                client_count,
                 bandwidth_desc,
             )
     return title
@@ -118,8 +114,8 @@ def show_run_df_as_line_graph(df, title, ax):
                linestyle="--")
     # This can sometimes cause the graph to be too large,
     #  but I can't see why as the max value is very reasonable
-    #ax.annotate(" 480p bitrate",
-    #            (max(df["time_offset"]), 250000))
+    # ax.annotate(" 480p bitrate",
+    #             (max(df["time_offset"]), 250000))
     ax.set_title(title)
 
 
@@ -139,21 +135,20 @@ def show_multiple_run_ids_as_line_graph(run_ids):
 
 
 def show_run_df_as_boxplot(df, title):
-    labels = get_tick_labels(min(df["time_offset"]),
-                             max(df["time_offset"]),
-                             10)
     ax2 = df.boxplot(column="bytes_per_sec",
                      by="time_offset",
                      figsize=(10, 5),
                      whis=[5, 95],
                      showfliers=False)
     ax2.set_xlabel("Elapsed time (sec)")
+    major_loc = ticker.MaxNLocator(10)
+    major_fmt = ticker.FormatStrFormatter('%d')
+    ax2.xaxis.set_major_locator(major_loc)
+    ax2.xaxis.set_major_formatter(major_fmt)
     ax2.grid()
-    ax2.set_xticks(labels)
-    ax2.set_xticklabels(labels)
     ax2.set_ylabel("Throughput (bytes/sec)")
     ax2.axhline(y=250000, color='0.75', linestyle="--")
-    ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
+    # ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
     ax2.set_title(title)
     # Nerf figure title
     ax2.get_figure().suptitle("")
@@ -170,8 +165,8 @@ def get_test_run_ids_for_group_id(test_group_id):
         config.read(metadata_file)
         if config.get("global", "test_group_id") == test_group_id:
             matching_run_ids.append(config.get("global", "test_run_id"))
-
-    return matching_run_ids
+    # XXX - can return duplicates but shouldn't... workaround in the meantime
+    return list(set(matching_run_ids))
 
 
 def show_group_as_boxplot(test_group_id):
