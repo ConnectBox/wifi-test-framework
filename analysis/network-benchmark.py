@@ -20,6 +20,10 @@ TEST_RESULT_METADATA_FILE = os.path.join(TEST_RESULT_DIR_PATTERN,
                                          METADATA_FILENAME)
 TEST_RESULT_FILES_PATTERN = os.path.join(TEST_RESULT_DIR_PATTERN,
                                          TEST_RESULT_GLOB)
+BW_DESC = {
+    150000: "360p bitrate",
+    250000: "480p bitrate",
+}
 
 
 def get_test_run_results(test_run_id):
@@ -101,9 +105,16 @@ def get_graph_title_for_group(test_group_id):
     return title
 
 
+def get_bw_annotation_detail(run_id):
+    config = configparser.ConfigParser()
+    config.read(TEST_RESULT_METADATA_FILE.format(run_id))
+    bandwidth_bps = int(config["global"]["test_bandwidth_bps"])
+
+    return bandwidth_bps, BW_DESC.get(bandwidth_bps, "")
+
+
 def show_run_df_as_line_graph(df, title, ax):
-    pivot_df = df.pivot(index="time_offset",
-                        columns="client_id",
+    pivot_df = df.pivot(columns="client_id",
                         values="bytes_per_sec")
     ax = pivot_df.plot(figsize=(20, 10), ax=ax)
     ax.set_xlabel("Elapsed time (sec)")
@@ -112,10 +123,11 @@ def show_run_df_as_line_graph(df, title, ax):
     ax.axhline(y=250000,
                color='0.75',
                linestyle="--")
-    # This can sometimes cause the graph to be too large,
-    #  but I can't see why as the max value is very reasonable
-    # ax.annotate(" 480p bitrate",
-    #             (max(df["time_offset"]), 250000))
+    # Could also do va=bottom, ha=right to put the annotation in the graph
+    ax.annotate("480p bitrate",
+                xy=(1.0, 250000),
+                xycoords=("axes fraction", "data"),
+                va="center", ha="left")
     ax.set_title(title)
 
 
@@ -134,24 +146,31 @@ def show_multiple_run_ids_as_line_graph(run_ids):
         )
 
 
-def show_run_df_as_boxplot(df, title):
-    ax2 = df.boxplot(column="bytes_per_sec",
-                     by="time_offset",
-                     figsize=(10, 5),
-                     whis=[5, 95],
-                     showfliers=False)
-    ax2.set_xlabel("Elapsed time (sec)")
+def show_run_df_as_boxplot(df, title, annotation_xpoint, annotation_str):
+    ax = df.boxplot(column="bytes_per_sec",
+                    by="time_offset",
+                    figsize=(10, 5),
+                    whis=[5, 95],
+                    showfliers=False)
+    ax.set_xlabel("Elapsed time (sec)")
     major_loc = ticker.MaxNLocator(10)
     major_fmt = ticker.FormatStrFormatter('%d')
-    ax2.xaxis.set_major_locator(major_loc)
-    ax2.xaxis.set_major_formatter(major_fmt)
-    ax2.grid()
-    ax2.set_ylabel("Throughput (bytes/sec)")
-    ax2.axhline(y=250000, color='0.75', linestyle="--")
-    # ax2.annotate("       480p bitrate", (max(df["time_offset"]), 250000))
-    ax2.set_title(title)
+    ax.xaxis.set_major_locator(major_loc)
+    ax.xaxis.set_major_formatter(major_fmt)
+    ax.grid()
+    ax.set_ylabel("Throughput (bytes/sec)")
+    ax.axhline(y=250000, color='0.75', linestyle="--")
+    # An empty annotation string means that it doesn't correspond to a known
+    #  bitrate, so we won't add an annotation
+    if annotation_str:
+        # Could also do va=bottom, ha=right to put the annotation in the graph
+        ax.annotate(annotation_str,
+                    xy=(1.0, annotation_xpoint),
+                    xycoords=("axes fraction", "data"),
+                    va="center", ha="left")
+    ax.set_title(title)
     # Nerf figure title
-    ax2.get_figure().suptitle("")
+    ax.get_figure().suptitle("")
 
 
 @lru_cache()
@@ -165,11 +184,13 @@ def get_test_run_ids_for_group_id(test_group_id):
         config.read(metadata_file)
         if config.get("global", "test_group_id") == test_group_id:
             matching_run_ids.append(config.get("global", "test_run_id"))
-    # XXX - can return duplicates but shouldn't... workaround in the meantime
+    # can return duplicates but shouldn't... workaround in the meantime
     return list(set(matching_run_ids))
 
 
 def show_group_as_boxplot(test_group_id):
     run_ids = get_test_run_ids_for_group_id(test_group_id)
     group_df = pd.concat([get_dataframe_from_test_run(r) for r in run_ids])
-    show_run_df_as_boxplot(group_df, get_graph_title_for_group(test_group_id))
+    annotation_details = get_bw_annotation_detail(run_ids[0])
+    show_run_df_as_boxplot(group_df, get_graph_title_for_group(test_group_id),
+                           *annotation_details)
