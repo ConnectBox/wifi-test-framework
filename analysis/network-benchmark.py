@@ -38,7 +38,7 @@ def get_test_run_results(test_run_id):
     return result_sio
 
 
-def get_dataframe_from_test_run(test_run_id):
+def get_dataframe_from_test_run(test_run_id, downscale_factor=1):
     raw_run_data = get_test_run_results(test_run_id)
     summary_data = pd.read_csv(raw_run_data,
                                comment="#",
@@ -46,9 +46,12 @@ def get_dataframe_from_test_run(test_run_id):
                                       "timestamp",
                                       "bytes_per_sec"])
     # Create a time_offset column
+    summary_data["time_offset"] = summary_data['timestamp'] - \
+        min(summary_data['timestamp'])
     summary_data["time_offset"] = \
-        pd.to_datetime(summary_data['timestamp'], unit='s') - \
-        min(pd.to_datetime(summary_data['timestamp'], unit='s'))
+        (summary_data["time_offset"] // downscale_factor) * downscale_factor
+    summary_data["time_offset"] = \
+        pd.to_timedelta(summary_data['time_offset'], unit="s")
     summary_data.set_index("time_offset", inplace=True)
     return summary_data
 
@@ -153,16 +156,16 @@ def show_run_df_as_boxplot(df, title, annotation_xpoint, annotation_str):
                     whis=[5, 95],
                     showfliers=False)
     ax.set_xlabel("Elapsed time (sec)")
-    major_loc = ticker.MaxNLocator(10)
+    major_loc = ticker.AutoLocator()
     major_fmt = ticker.FormatStrFormatter('%d')
     ax.xaxis.set_major_locator(major_loc)
     ax.xaxis.set_major_formatter(major_fmt)
     ax.grid()
     ax.set_ylabel("Throughput (bytes/sec)")
-    ax.axhline(y=250000, color='0.75', linestyle="--")
     # An empty annotation string means that it doesn't correspond to a known
     #  bitrate, so we won't add an annotation
     if annotation_str:
+        ax.axhline(y=250000, color='0.75', linestyle="--")
         # Could also do va=bottom, ha=right to put the annotation in the graph
         ax.annotate(annotation_str,
                     xy=(1.0, annotation_xpoint),
