@@ -1,0 +1,4 @@
+[clients]
+client01.wifi-test parallel_run_count=3
+client02.wifi-test parallel_run_count=3
+client03.wifi-test parallel_run_count=2

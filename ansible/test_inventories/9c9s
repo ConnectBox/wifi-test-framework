@@ -1,0 +1,10 @@
+[clients]
+client01.wifi-test parallel_run_count=1
+client02.wifi-test parallel_run_count=1
+client03.wifi-test parallel_run_count=1
+client04.wifi-test parallel_run_count=1
+client05.wifi-test parallel_run_count=1
+client06.wifi-test parallel_run_count=1
+client07.wifi-test parallel_run_count=1
+client08.wifi-test parallel_run_count=1
+client10.wifi-test parallel_run_count=1
