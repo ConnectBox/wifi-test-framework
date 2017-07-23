@@ -1,0 +1,2 @@
+[clients]
+client01.wifi-test parallel_run_count=1

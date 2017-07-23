@@ -1,0 +1,22 @@
+[clients]
+client01.wifi-test parallel_run_count=1
+client02.wifi-test parallel_run_count=1
+client03.wifi-test parallel_run_count=1
+client04.wifi-test parallel_run_count=1
+client05.wifi-test parallel_run_count=1
+client06.wifi-test parallel_run_count=1
+client07.wifi-test parallel_run_count=1
+client08.wifi-test parallel_run_count=1
+client09.wifi-test parallel_run_count=1
+client10.wifi-test parallel_run_count=1
+client11.wifi-test parallel_run_count=1
+client12.wifi-test parallel_run_count=1
+client13.wifi-test parallel_run_count=1
+client14.wifi-test parallel_run_count=1
+client15.wifi-test parallel_run_count=1
+client16.wifi-test parallel_run_count=1
+client17.wifi-test parallel_run_count=1
+client18.wifi-test parallel_run_count=1
+client19.wifi-test parallel_run_count=1
+client20.wifi-test parallel_run_count=1
+client21.wifi-test parallel_run_count=1
