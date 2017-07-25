@@ -58,6 +58,15 @@
     src: /usr/share/zoneinfo/Australia/Sydney
     dest: /etc/localtime
 
+# The timeout should be a few seconds shorter than the
+#  WAIT_TIME_FOR_ASSOCIATION_SECS in run.sh
+- name: Configure short timeout for obtaining DHCP lease
+  lineinfile:
+    path: /etc/dhcp/dhclient.conf
+    regexp: '^timeout [0-9]*$'
+    line: timeout 18
+    state: present
+
 # REG_DOMAIN=AU in /etc/default/crda
 # change to 0 below
 # APT::Periodic::Unattended-Upgrade "1";
