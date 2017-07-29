@@ -60,12 +60,10 @@
 
 # The timeout should be a few seconds shorter than the
 #  WAIT_TIME_FOR_ASSOCIATION_SECS in run.sh
-- name: Configure short timeout for obtaining DHCP lease
-  lineinfile:
-    path: /etc/dhcp/dhclient.conf
-    regexp: '^timeout [0-9]*$'
-    line: timeout 18
-    state: present
+- name: Setup dhcp client including short timeout for obtaining DHCP lease
+  copy:
+    src: dhclient.conf
+    dest: /etc/dhcp/dhclient.conf
 
 # REG_DOMAIN=AU in /etc/default/crda
 # change to 0 below
