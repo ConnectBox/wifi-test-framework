@@ -20,9 +20,11 @@ TEST_RESULT_METADATA_FILE = os.path.join(TEST_RESULT_DIR_PATTERN,
                                          METADATA_FILENAME)
 TEST_RESULT_FILES_PATTERN = os.path.join(TEST_RESULT_DIR_PATTERN,
                                          TEST_RESULT_GLOB)
+DEFAULT_REFERENCE_LINE_Y_VALUE = 250000
 BW_DESC = {
-    150000: "360p bitrate",
+    125000: "360p bitrate",
     250000: "480p bitrate",
+    500000: "720p bitrate",
 }
 
 
@@ -67,7 +69,7 @@ def get_graph_title_for_run(test_run_id):
     bandwidth_desc = "{0} bytes/sec".format(
         config["global"]["test_bandwidth_bps"]
     )
-    title = "Run {0} against {1}{2}.\n" \
+    title = "Run {0} against {1} {2}.\n" \
             "{3} streams between {4} clients. " \
             "Each stream attempting {5}" \
             .format(
@@ -93,7 +95,7 @@ def get_graph_title_for_group(test_group_id):
     bandwidth_desc = "{0} bytes/sec".format(
         config["global"]["test_bandwidth_bps"]
     )
-    title = "Group run {0} against {1}{2} with {3} repeat runs.\n" \
+    title = "Group run {0} against {1} {2} with {3} repeat runs.\n" \
             "{4} streams between {5} clients. " \
             "Each stream attempting {6}" \
             .format(
@@ -116,22 +118,30 @@ def get_bw_annotation_detail(run_id):
     return bandwidth_bps, BW_DESC.get(bandwidth_bps, "")
 
 
-def show_run_df_as_line_graph(df, title, ax):
+def show_run_df_as_line_graph(run_id, ax):
+    config = configparser.ConfigParser()
+    config.read(TEST_RESULT_METADATA_FILE.format(run_id))
+    test_bandwidth_bps = int(config["global"]["test_bandwidth_bps"])
+    if test_bandwidth_bps in BW_DESC:
+        reference_line_y = test_bandwidth_bps
+    else:
+        reference_line_y = DEFAULT_REFERENCE_LINE_Y_VALUE
+    df = get_dataframe_from_test_run(run_id)
     pivot_df = df.pivot(columns="client_id",
                         values="bytes_per_sec")
     ax = pivot_df.plot(figsize=(20, 10), ax=ax)
     ax.set_xlabel("Elapsed time (sec)")
     ax.set_xbound(lower=0)
     ax.set_ylabel("Throughput (bytes/sec)")
-    ax.axhline(y=250000,
+    ax.axhline(y=reference_line_y,
                color='0.75',
                linestyle="--")
     # Could also do va=bottom, ha=right to put the annotation in the graph
-    ax.annotate("480p bitrate",
-                xy=(1.0, 250000),
+    ax.annotate(BW_DESC[reference_line_y],
+                xy=(1.0, reference_line_y),
                 xycoords=("axes fraction", "data"),
                 va="center", ha="left")
-    ax.set_title(title)
+    ax.set_title(get_graph_title_for_run(run_id))
 
 
 def show_multiple_run_ids_as_line_graph(run_ids):
@@ -141,10 +151,8 @@ def show_multiple_run_ids_as_line_graph(run_ids):
                            squeeze=False)
 
     for idx, run_id in enumerate(run_ids):
-        summary_data = get_dataframe_from_test_run(run_id)
         show_run_df_as_line_graph(
-            summary_data,
-            get_graph_title_for_run(run_id),
+            run_id,
             ax=axes[0][idx]
         )
 
