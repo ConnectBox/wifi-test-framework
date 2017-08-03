@@ -10,6 +10,14 @@ TARGET_OVERRIDES = {
         "-e wifi_network_under_test='neo.connectbox'",
         "-e test_server_hostname='neo.connectbox'",
     ],
+    "pilot1": [
+        "-e wifi_network_under_test='pilot1.connectbox'",
+        "-e test_server_hostname='pilot1.connectbox'",
+    ],
+    "pilot2": [
+        "-e wifi_network_under_test='pilot2.connectbox'",
+        "-e test_server_hostname='pilot2.connectbox'",
+    ],
     "rpi3": [
         "-e wifi_network_under_test='rpi3.connectbox'",
         "-e test_server_hostname='rpi3.connectbox'",
@@ -35,6 +43,10 @@ INVENTORIES = [
     "test_inventories/7c8s",
     "test_inventories/8c8s",
     "test_inventories/9c9s",
+    "test_inventories/10c10s",
+    "test_inventories/12c12s",
+    "test_inventories/14c14s",
+    "test_inventories/21c21s",
 ]
 
 print('# Generated script follows')
