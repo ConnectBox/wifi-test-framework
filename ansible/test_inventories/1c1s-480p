@@ -1,0 +1,2 @@
+[clients]
+client01.wifi-test parallel_run_count=1 test_bandwidth_bps=250000

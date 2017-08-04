@@ -1,0 +1,11 @@
+[clients]
+client01.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client02.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client03.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client04.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client05.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client06.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client07.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client08.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client09.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client10.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
