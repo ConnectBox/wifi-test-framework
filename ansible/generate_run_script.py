@@ -1,9 +1,9 @@
-
-#REPEAT_COUNT = 20
-#TARGETS = ["neo", "rpi3"]
-REPEAT_COUNT = 2
-TARGETS = ["tp3040"]
-EXTRA_RUN_DESC = ""
+REPEAT_COUNT = 5
+TARGETS = ["pilot1", "pilot2"]
+EXTRA_RUN_DESC = "@20ft"
+INVENTORIES = [
+    "test_inventories/4c4s-480p",
+]
 
 TARGET_OVERRIDES = {
     "neo": [
@@ -33,28 +33,15 @@ TARGET_OVERRIDES = {
         "-e test_file_path='Shared/throughput-test/10MB.bin",
     ],
 }
-INVENTORIES = [
-    "test_inventories/1c8s",
-    "test_inventories/2c8s",
-    "test_inventories/3c8s",
-    "test_inventories/4c8s",
-    "test_inventories/5c8s",
-    "test_inventories/6c8s",
-    "test_inventories/7c8s",
-    "test_inventories/8c8s",
-    "test_inventories/9c9s",
-    "test_inventories/10c10s",
-    "test_inventories/12c12s",
-    "test_inventories/14c14s",
-    "test_inventories/21c21s",
-]
 
 print('# Generated script follows')
+print('group_datestamp=$(date +%y%m%d%H%M);')
 for c in range(REPEAT_COUNT):
     print('echo "Interation start: $(date)"')
     for i in INVENTORIES:
         for t in TARGETS:
             group_id = "-".join(filter(None, [t, i, EXTRA_RUN_DESC]))
             print('# Starting %s' % (group_id,))
-            print('ansible-playbook -i %s run.yml -e test_group_id=%s %s' %
+            print('ansible-playbook -i %s run.yml '
+                  '-e test_group_id=%s-${group_datestamp} %s' %
                   (i, group_id, " ".join(TARGET_OVERRIDES[t])))
