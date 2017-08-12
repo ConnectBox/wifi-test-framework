@@ -93,3 +93,8 @@
     - python3-virtualenv
     - tcpdump
 
+- name: Make pcap dumping directory
+  file:
+    state: directory
+    path: /root/wifi-test-results/pcap
+
