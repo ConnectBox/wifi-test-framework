@@ -5,6 +5,21 @@
     enabled: no
     state: stopped
 
+# Disable unattended upgrades before attempting to install packages
+# (stop service, then remove entirely)
+# unattended-upgrades only runs on Ubuntu
+- block:
+  - name: Stop unattended-upgrades service
+    service:
+      name: unattended-upgrades
+      state: stopped
+
+  - name: Uninstall unattended-upgrades service
+    apt:
+      name: unattended-upgrades
+      state: absent
+  when: ansible_distribution == "Ubuntu"
+
 # XXX - need to reboot if this changes
 - name: Populate rc.local with persistent eth0 MAC workaround
   template:
@@ -76,4 +91,5 @@
   with_items:
     - python3-pip
     - python3-virtualenv
+    - tcpdump
 

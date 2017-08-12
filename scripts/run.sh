@@ -24,14 +24,19 @@ if [ $num_wlan_routes -gt 0 ]; then
     # Shift so we can pass the rest of the arguments to the test script
     shift
 
+    run_description=$(echo $@ | grep -o test-run-[0-9]*)
+    tcpdump -i ${wlan_device} -w /tmp/$(hostname -s)-${run_description}.pcap &
+
     # Wait for test start time (so all clients are starting simultaneously
     #  regardless of association time)
     sleep $(( $test_start_time-$(date +"%s") ))
 
     for i in $(seq 1 ${COUNT}); do
         # Do test stuff
+        logger -s -t run.sh "running: python3 ./downloader.py";
         python3 ./downloader.py $@ &
     done
+    pkill -f "tcpdump"
     wait
 else
     logger -s -t run.sh "Failed to configure connectivity to target"
