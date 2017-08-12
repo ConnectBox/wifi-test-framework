@@ -92,3 +92,5 @@ ansible/inventory
 site.retry
 *.swp
 .DS_Store
+ansible/complete-output.txt
+ansible/run.sh
