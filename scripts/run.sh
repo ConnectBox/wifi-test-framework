@@ -18,14 +18,15 @@ logger -s -t run.sh "Connected to network under test: $(iwconfig ${wlan_device} 
 #  on wlan0. If we haven't received a DHCP lease we won't have any routes.
 num_wlan_routes=$(netstat -rn | grep -c "${wlan_device}$");
 
+run_description=$(echo $@ | grep -o test-run-[0-9]*)
+tcpdump -i ${wlan_device} -w /tmp/$(hostname -s)-${run_description}.pcap > /tmp/$(hostname -s)-${run_description}.out 2>&1 &
+disown %-
+
 if [ $num_wlan_routes -gt 0 ]; then
     logger -s -t run.sh "Successfully configured connectivity to target"
     COUNT=$1
     # Shift so we can pass the rest of the arguments to the test script
     shift
-
-    run_description=$(echo $@ | grep -o test-run-[0-9]*)
-    tcpdump -i ${wlan_device} -w /tmp/$(hostname -s)-${run_description}.pcap &
 
     # Wait for test start time (so all clients are starting simultaneously
     #  regardless of association time)
@@ -36,11 +37,12 @@ if [ $num_wlan_routes -gt 0 ]; then
         logger -s -t run.sh "running: python3 ./downloader.py";
         python3 ./downloader.py $@ &
     done
-    pkill -f "tcpdump"
     wait
 else
     logger -s -t run.sh "Failed to configure connectivity to target"
 fi
+
+pkill -f "tcpdump"
 
 # Cleanup
 logger -s -t run.sh "Disconnecting from network under test"
