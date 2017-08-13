@@ -10,11 +10,13 @@ how to read the graphs
 
 Two identical tests, made within a few hours of each other, on the same hardware, with the same clients
 
+Early Test (full throughput for all clients for the entirety of the test)
 
-![Early Test (full throughput for all clients for the entirety of the test)][p2-9c9s-early]
+![p2-9c9s-early]
 
+Late Test (full throughput for most clients, with some underperformers, and drop-off in throughput part-way through the test) 
 
-![Late Test (full throughput for most clients, with some underperformers, and drop-off in throughput part-way through the test)][p2-9c9s-late]
+![p2-9c9s-late]
 
 
 variance between devices
