@@ -1,10 +1,23 @@
 # Calibrating devices
 
-methodology
+See the [reference](reference.md) for info on test methodology and advice when reading the graphs.
 
-how to read the graphs
+## Aim
 
-![p1-8c8s-early]
+To gauge the normal variance that we can expect from run to run.
+
+## Background
+
+These test results are the last in a series of tests. The two devices have identical hardware and so should have identical performance. To confirm that the results were not as a result of defective componentsor test environment, the following variations were performed, with similar results:
+
+* swapping micro sd cards
+* swapping usb wifi
+* swapping power cable and supply
+* swapping the Neo board + HAT
+* removing the USB storage and instead serving the test file from micro sd.
+* reversing device test location (placing device 1 where device 2 was, and vice versa)
+
+For these tests the ConnectBox devices were placed at a distance of 20ft from the clients, with a clear line-of-site. The ConnectBox devices were 3ft off the ground, on a wooden shelf.
 
 ## Variance on the same device
 
