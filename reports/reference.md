@@ -1,12 +1,10 @@
 # Methodology
 
-Tests are interleaved and run multiple times in succession.
-
-e.g. a typical test scenario comparing device A against device B will run the test suite 20 times, ABABAB etc . This means that we increase the chance that localised changes to the test environment are reflected equally for both devices.
+Tests are interleaved and run multiple times in succession using the technique described in _Conducting Repeatable Experiments and Fair Comparisons using 802.11n MIMO Networks_: Abedi, Heard and Brecht. [pdf](http://cs.uwaterloo.ca/~brecht/papers/osr-repeat-2015.pdf). This technique increases the chance that localised changes to the test environment are reflected equally for all test devices. A typical test scenario comparing device A against device B will run the test suite 20 times, ABABAB...
 
 # Client setup
 
-Tests are automated and use a battery of NanoPi/Pine64/OrangePi devices with either Atheros AR9721 or Ralink RT5370 802.11n USB adapters. The test involves clients downloading a 10MB file of completely random data from the ConnectBox webserver with the ConnectBox at a fixed distance from the clients. The test will be specifically crafted as line-of-site or with certain obstacles.
+Tests are automated and use a battery of NanoPi/Pine64/OrangePi devices with either Atheros AR9721 or Ralink RT5370 802.11n USB adapters. The client devices are 2-3ft off the ground and are stored in a plastic housing. The test involves clients downloading a 10MB file of completely random data from the ConnectBox webserver with the ConnectBox at a fixed distance from the clients. The test will be specifically crafted as line-of-site or with certain obstacles.
 
 # Throughput testing
 
