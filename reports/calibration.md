@@ -8,9 +8,9 @@ To gauge the normal variance that we can expect from run to run.
 
 ## Summary
 
-Performance may vary by up to 25% between identical configured devices using interleaved runs.
+Performance has been seen to vary by up to 25% between identical configured devices.
 
-Performance has been seen to vary by up to 20% between identical runs on the same hardware.
+Performance has been seen to vary by up to 20% between identical tests on the same hardware.
 
 ## Background
 
