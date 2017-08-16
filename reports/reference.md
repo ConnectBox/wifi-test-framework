@@ -4,7 +4,9 @@ Tests are interleaved and run multiple times in succession.
 
 e.g. a typical test scenario comparing device A against device B will run the test suite 20 times, ABABAB etc . This means that we increase the chance that localised changes to the test environment are reflected equally for both devices.
 
-The test involves clients downloading a 10MB file of completely random data from the ConnectBox webserver with the ConnectBox at a fixed distance from the clients. The test will be specifically crafted as line-of-site or with certain obstacles.
+# Client setup
+
+Tests are automated and use a battery of NanoPi/Pine64/OrangePi devices with either Atheros AR9721 or Ralink RT5370 802.11n USB adapters. The test involves clients downloading a 10MB file of completely random data from the ConnectBox webserver with the ConnectBox at a fixed distance from the clients. The test will be specifically crafted as line-of-site or with certain obstacles.
 
 # Throughput testing
 
