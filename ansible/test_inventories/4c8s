@@ -1,5 +1,0 @@
-[clients]
-client01.wifi-test parallel_run_count=2
-client02.wifi-test parallel_run_count=2
-client03.wifi-test parallel_run_count=2
-client04.wifi-test parallel_run_count=2

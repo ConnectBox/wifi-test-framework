@@ -14,4 +14,3 @@ client12.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
 client13.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
 client14.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
 client15.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
-client16.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
