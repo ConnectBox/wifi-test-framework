@@ -44,21 +44,10 @@ Pilot2, with high-thoughput capabilities active, outperforms Pilot1
 
 ![pilot2-htcapab-12c12s]
 
-## Experiment 2: 10 Clients
-
-Both devices can serve data at full speed to the clients
-
-### Pilot 1 (ht_capab active)
-
-![pilot1-htcapab-10c10s]
-
-### Pilot 2 (default config)
-
-![pilot2-default-10c10s]
-
 ## Experiment 2: 12 Clients
 
 Pilot1, with high-throughput capabilities active, outperforms Pilot2
+Both devices can serve data at full speed to the clients.
 
 ### Pilot 1 (ht_capab active)
 
@@ -80,15 +69,26 @@ Pilot1, with high-throughput capabilities active, outperforms Pilot2
 
 ![pilot2-default-13c13s]
 
+## Experiment 2: 14 Clients
+
+Neither device can serve data at full speed to the clients, though Pilot1 with high throughput capabilities active, is still able to serve 75% of clients at full speed where as Pilot2 shows more dramatic degradation.
+
+### Pilot 1 (ht_capab active)
+
+![pilot1-htcapab-14c14s]
+
+### Pilot 2 (default config)
+
+![pilot2-default-14c14s]
 
 
 [pilot1-default-10c10s]: htcapab_images/pilot1-test_inventories_10c10s-480p-@20ft-pilot2-htcapab-1708171941.png
 [pilot1-default-12c12s]: htcapab_images/pilot1-test_inventories_12c12s-480p-@20ft-pilot2-htcapab-1708171941.png
 [pilot2-htcapab-10c10s]: htcapab_images/pilot2-test_inventories_10c10s-480p-@20ft-pilot2-htcapab-1708171941.png
 [pilot2-htcapab-12c12s]: htcapab_images/pilot2-test_inventories_12c12s-480p-@20ft-pilot2-htcapab-1708171941.png
-[pilot1-htcapab-10c10s]: htcapab_images/pilot1-test_inventories_10c10s-480p-@20ft-pilot1-capab-1708182014.png
-[pilot1-htcapab-12c12s]: htcapab_images/pilot1-test_inventories_12c12s-480p-@20ft-pilot1-capab-1708182014.png
-[pilot1-htcapab-13c13s]: htcapab_images/pilot1-test_inventories_13c13s-480p-@20ft-pilot1-capab-1708182014.png
-[pilot2-default-10c10s]: htcapab_images/pilot2-test_inventories_10c10s-480p-@20ft-pilot1-capab-1708182014.png
-[pilot2-default-12c12s]: htcapab_images/pilot2-test_inventories_12c12s-480p-@20ft-pilot1-capab-1708182014.png
-[pilot2-default-13c13s]: htcapab_images/pilot2-test_inventories_13c13s-480p-@20ft-pilot1-capab-1708182014.png
+[pilot1-htcapab-12c12s]: htcapab_images/pilot1-test_inventories_12c12s-480p-@20ft-pilot1-capab-1708240542.png
+[pilot1-htcapab-13c13s]: htcapab_images/pilot1-test_inventories_13c13s-480p-@20ft-pilot1-capab-1708240542.png
+[pilot1-htcapab-14c14s]: htcapab_images/pilot1-test_inventories_14c14s-480p-@20ft-pilot1-capab-1708240542.png
+[pilot2-default-12c12s]: htcapab_images/pilot2-test_inventories_12c12s-480p-@20ft-pilot1-capab-1708240542.png
+[pilot2-default-13c13s]: htcapab_images/pilot2-test_inventories_13c13s-480p-@20ft-pilot1-capab-1708240542.png
+[pilot2-default-14c14s]: htcapab_images/pilot2-test_inventories_14c14s-480p-@20ft-pilot1-capab-1708240542.png
