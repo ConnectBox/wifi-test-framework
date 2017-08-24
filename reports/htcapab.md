@@ -46,7 +46,6 @@ Pilot2, with high-thoughput capabilities active, outperforms Pilot1
 
 ## Experiment 2: 12 Clients
 
-Pilot1, with high-throughput capabilities active, outperforms Pilot2
 Both devices can serve data at full speed to the clients.
 
 ### Pilot 1 (ht_capab active)
