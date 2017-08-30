@@ -8,7 +8,7 @@ When tested on identical hardware, at a distance of 20ft, the RT5372 wifi dongle
 
 # Background
 
-The two devices, Pilot1 and Pilot2 are 25-unit pilot devices (256mb NEO + HAT). One of the devices has the unbranded RT5372 with a 2db external antenna that came with the pilot device ([similar model](https://www.alibaba.com/product-detail/Ralink-RT5372-Chipset-USB-Wireless-Adapter_60377343002.html), and the other has a RT5372 that has an internal antenna ([similar model](https://www.alibaba.com/product-detail/RT5372-N300-WIFI-USB-Adapter-with_1075634065.html?spm=a2700.7724838.2017115.36.3c93b095WIevhn))
+The two devices, Pilot1 and Pilot2 are 25-unit pilot devices (256mb NEO + HAT). One of the devices has the unbranded RT5372 with a 2db external antenna that came with the pilot device ([similar model](https://www.alibaba.com/product-detail/Ralink-RT5372-Chipset-USB-Wireless-Adapter_60377343002.html)), and the other has a RT5372 with an internal antenna ([similar model](https://www.alibaba.com/product-detail/RT5372-N300-WIFI-USB-Adapter-with_1075634065.html?spm=a2700.7724838.2017115.36.3c93b095WIevhn))
 
 Both devices appear as the same device to `lsusb`:
 
@@ -22,7 +22,7 @@ For these tests the ConnectBox devices were placed at a distance of 20ft from th
 
 ## Experiment 1: 8 Clients
 
-Even with this low client count, the device with the internal antenna is unable to provide data at full speed to the clients. Noting the near-full throughput test result with 12 clients, this suggests that the internal antenna is at best able to provide 66% (8/12) of the throughput of the external antenna. The number may be lower, but there was no testing done below 8 clients.
+Even with this low client count, the device with the internal antenna is unable to provide data at full speed to the clients. Noting the near-full throughput test result with 12 clients, this suggests that the internal antenna is at best able to provide 66% (8/12) of the throughput of the external antenna. The number may be lower as there was no testing done below 8 clients.
 
 ### Pilot 1 (external antenna)
 
@@ -70,7 +70,7 @@ We see that performance is significantly reduced with an internal antenna, even 
 
 ## Experiment 2: 14 clients (360p)
 
-Throughput starts to drop for the internal antenna device at 13 or 14 clients (it can maintain full throughput for 12 clients). This is 75% (13/17) of the throughput of the device with the external antenna, which is higher than the 
+Throughput starts to drop for the internal antenna device at 13 or 14 clients (it can maintain full throughput for 12 clients). This is 75% (13/17) of the throughput of the device with the external antenna.
 
 ### Pilot 1 (external antenna)
 
