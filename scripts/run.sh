@@ -19,8 +19,8 @@ logger -s -t run.sh "Connected to network under test: $(iwconfig ${wlan_device} 
 num_wlan_routes=$(netstat -rn | grep -c "${wlan_device}$");
 
 run_description=$(echo $@ | grep -o test-run-[0-9]*)
-tcpdump -i ${wlan_device} -w /root/wifi-test-results/pcap/$(hostname -s)-${run_description}.pcap > /root/wifi-test-results/pcap/$(hostname -s)-${run_description}.out 2>&1 &
-disown %-
+#tcpdump -i ${wlan_device} -w /root/wifi-test-results/pcap/$(hostname -s)-${run_description}.pcap > /root/wifi-test-results/pcap/$(hostname -s)-${run_description}.out 2>&1 &
+#disown %-
 
 if [ $num_wlan_routes -gt 0 ]; then
     logger -s -t run.sh "Successfully configured connectivity to target"
