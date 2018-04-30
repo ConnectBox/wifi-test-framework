@@ -9,6 +9,9 @@
         key_mgmt=NONE
      }
 
+- name: Set country code
+  command: iw reg set AU
+
 - name: Create /etc/hosts entry for target machine (test server)
   lineinfile:
     path: /etc/hosts
