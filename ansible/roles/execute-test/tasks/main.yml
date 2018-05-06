@@ -9,7 +9,19 @@
   run_once: true  # Only want a single test_run_id, not one per client
   when: test_run_id is undefined
 
-- name: Make test output directory
+# Even though the fetch below task would create this directory, it's easier
+#  to troubleshoot a results directory that doesn't have any csv files than
+#  it is to troubleshoot a failed metadata creation step (dir not found) so
+#  we explicitly create the directory
+- name: Make local test output directory
+  file:
+    state: directory
+    dest: "{{ local_test_results_directory }}/root/wifi-test-results/test-run-{{ test_run_id }}"
+  delegate_to: 127.0.0.1
+  run_once: True
+  become: False
+
+- name: Make test output directory on clients
   file:
     state: directory
     dest: "{{ remote_test_results_directory }}"
