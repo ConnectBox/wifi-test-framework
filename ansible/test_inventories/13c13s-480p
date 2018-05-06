@@ -7,8 +7,8 @@ client05.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client06.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client07.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client08.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
-client09.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client10.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client11.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client12.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
-client13.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client20.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
+client21.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
