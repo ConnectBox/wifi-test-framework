@@ -2,6 +2,6 @@
 - hosts: clients
   become: yes
   roles:
-    - setup-system
-    - deploy-artifacts
+    - { role: setup-system, tags: ["setup-system"] }
+    - { role: deploy-artifacts, tags: ["task_execution"] }
     - { role: execute-test, tags: ["task_execution"] }
