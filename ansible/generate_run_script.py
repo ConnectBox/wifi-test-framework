@@ -1,11 +1,13 @@
 """generate a script that can be used to run a long-running test"""
 
-REPEAT_COUNT = 1
-TARGETS = ["pilot1", "pilot2"]
-EXTRA_RUN_DESC = "@20ft-scope1"
+REPEAT_COUNT = 20
+TARGETS = ["opiz2", "pilot2"]
+EXTRA_RUN_DESC = "@20ft-neoVopiz2"
 INVENTORIES = [
-    "test_inventories/6c6s-480p",
+    "test_inventories/7c7s-480p",
     "test_inventories/8c8s-480p",
+    "test_inventories/9c9s-480p",
+    "test_inventories/10c10s-480p",
 ]
 
 TARGET_OVERRIDES = {

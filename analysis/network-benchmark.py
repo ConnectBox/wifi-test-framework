@@ -5,6 +5,7 @@ from functools import lru_cache
 import glob
 import io
 import os
+import re
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -110,6 +111,17 @@ def get_graph_title_for_group(test_group_id):
     return title
 
 
+def all_clients_succeeded(run_id):
+    config = configparser.ConfigParser()
+    config.read(TEST_RESULT_METADATA_FILE.format(run_id))
+    successful_client_count = len(config.sections()) - 1
+    inventory_str = config["global"]["test_group_id"]
+    mo = re.search("(?P<inv_count>[0-9]+)c[0-9]+s", inventory_str)
+    print("inv count = %s. Successful client count = %s" %
+          (mo.groups('inv_count'), successful_client_count))
+    return True
+
+
 def get_bw_annotation_detail(run_id):
     config = configparser.ConfigParser()
     config.read(TEST_RESULT_METADATA_FILE.format(run_id))
@@ -201,6 +213,8 @@ def get_test_run_ids_for_group_id(test_group_id):
 
 def show_group_as_boxplot(test_group_id):
     run_ids = get_test_run_ids_for_group_id(test_group_id)
+    for r in run_ids:
+        all_clients_succeeded(r)
     group_df = pd.concat([get_dataframe_from_test_run(r) for r in run_ids])
     annotation_details = get_bw_annotation_detail(run_ids[0])
     show_run_df_as_boxplot(group_df, get_graph_title_for_group(test_group_id),
