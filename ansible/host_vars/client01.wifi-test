@@ -1,4 +1,0 @@
----
-# Randomly chosen, so there's nothing special about this MAC, and it
-#  doesn't actually relate to the MAC on the device
-eth0_mac: c6:84:05:3c:a8:01
