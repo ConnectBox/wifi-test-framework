@@ -71,7 +71,7 @@
 - name: Schedule reboot if firmware newly installed
   set_fact:
     reboot_required: True
-  when: firmware_installed
+  when: firmware_installed.changed
 
 # Needs to happen before the initial reboot, given the job triggers actions
 #  on @reboot

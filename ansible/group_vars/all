@@ -4,3 +4,4 @@ local_test_results_directory: /Users/esteele/tmp/wifi-test
 wifi_regulatory_domain: AU
 ansible_user: root  # this is armbian, and we don't create a user
 reboot_required: False
+test_server_hostname: connectbox

@@ -1,13 +1,11 @@
 """generate a script that can be used to run a long-running test"""
 
-REPEAT_COUNT = 20
+REPEAT_COUNT = 3
 TARGETS = ["neo-hatgen2", "neo-hatgen3"]
-EXTRA_RUN_DESC = "@20ft-neoVopiz2"
+EXTRA_RUN_DESC = "@15ft-internal-control"
 INVENTORIES = [
-    "test_inventories/7c7s-480p",
-    "test_inventories/8c8s-480p",
-    "test_inventories/9c9s-480p",
-    "test_inventories/10c10s-480p",
+    "test_inventories/20c20s-360p",
+    "test_inventories/16c16s-480p",
 ]
 
 TARGET_OVERRIDES = {
@@ -17,11 +15,11 @@ TARGET_OVERRIDES = {
     ],
     "neo-hatgen2": [
         "-e wifi_network_under_test='neo-hatgen2.connectbox'",
-        "-e test_server_hostname='neo-hatgen2.connectbox'",
+        "-e test_server_hostname='connectbox'",
     ],
     "neo-hatgen3": [
         "-e wifi_network_under_test='neo-hatgen3.connectbox'",
-        "-e test_server_hostname='neo-hatgen3.connectbox'",
+        "-e test_server_hostname='connectbox'",
     ],
     "pilot1": [
         "-e wifi_network_under_test='pilot1.connectbox'",
