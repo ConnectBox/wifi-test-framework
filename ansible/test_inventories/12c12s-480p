@@ -1,3 +1,4 @@
+# All 16 NEOs, for consistency.
 [clients]
 client01.wifi-test parallel_run_count=1 test_bandwidth_bps=250000
 client02.wifi-test parallel_run_count=1 test_bandwidth_bps=250000

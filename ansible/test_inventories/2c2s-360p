@@ -1,3 +1,0 @@
-[clients]
-client01.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
-client13.wifi-test parallel_run_count=1 test_bandwidth_bps=125000
